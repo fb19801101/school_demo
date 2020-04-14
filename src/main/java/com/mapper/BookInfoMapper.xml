@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.BookInfoMapper">
+  <resultMap id="BaseResultMap" type="com.model.BookInfo">
+    <id column="bki_id" jdbcType="VARCHAR" property="bkiId" />
+    <result column="bki_name" jdbcType="VARCHAR" property="bkiName" />
+    <result column="bki_type" jdbcType="VARCHAR" property="bkiType" />
+    <result column="bki_writer" jdbcType="VARCHAR" property="bkiWriter" />
+    <result column="bki_concern" jdbcType="VARCHAR" property="bkiConcern" />
+    <result column="bki_publish_date" jdbcType="TIMESTAMP" property="bkiPublishDate" />
+    <result column="bki_price" jdbcType="DOUBLE" property="bkiPrice" />
+    <result column="bki_register_date" jdbcType="TIMESTAMP" property="bkiRegisterDate" />
+    <result column="bki_count" jdbcType="INTEGER" property="bkiCount" />
+    <result column="bki_czy" jdbcType="VARCHAR" property="bkiCzy" />
+    <result column="bki_remark" jdbcType="VARCHAR" property="bkiRemark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.bkiId != null">
+        bki_id = #{record.bkiId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.bkiName != null">
+        and bki_name = #{record.bkiName,jdbcType=VARCHAR}
+      </if>
+      <if test="record.bkiType != null">
+        and bki_type = #{record.bkiType,jdbcType=VARCHAR}
+      </if>
+      <if test="record.bkiWriter != null">
+        and bki_writer = #{record.bkiWriter,jdbcType=VARCHAR}
+      </if>
+      <if test="record.bkiConcern != null">
+        and bki_concern = #{record.bkiConcern,jdbcType=VARCHAR}
+      </if>
+      <if test="record.bkiPublishDate != null">
+        and bki_publish_date = #{record.bkiPublishDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.bkiPrice != null">
+        and bki_price = #{record.bkiPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="record.bkiRegisterDate != null">
+        and bki_register_date = #{record.bkiRegisterDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.bkiCount != null">
+        and bki_count = #{record.bkiCount,jdbcType=INTEGER}
+      </if>
+      <if test="record.bkiCzy != null">
+        and bki_czy = #{record.bkiCzy,jdbcType=VARCHAR}
+      </if>
+      <if test="record.bkiRemark != null">
+        and bki_remark = #{record.bkiRemark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.bwiId != null">
+        bwi_id like concat('%', #{record.bwiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.bkiId != null">
+        and bki_id like concat('%', #{record.bkiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiId != null">
+        and sti_id like concat('%', #{record.stiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.bkiName != null">
+        and bki_name like concat('%', #{record.bkiName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.bkiPrice != null">
+        and bki_price like concat('%', #{record.bkiPrice,jdbcType=DOUBLE}, '%')
+      </if>
+      <if test="record.bkiType != null">
+        and bki_type like concat('%', #{record.bkiType,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.bwiBorrowDate != null">
+        and bwi_borrow_date like concat('%', #{record.bwiBorrowDate,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.bwiCount != null">
+        and bwi_count like concat('%', #{record.bwiCount,jdbcType=INTEGER}, '%')
+      </if>
+      <if test="record.bwiReturnDate != null">
+        and bwi_return_date like concat('%', #{record.bwiReturnDate,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.bwiCzy != null">
+        and bwi_czy like concat('%', #{record.bwiCzy,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    bki_id, bki_name, bki_type, bki_writer, bki_concern, bki_publish_date, bki_price, 
+    bki_register_date, bki_count, bki_czy, bki_remark
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        bki_id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.BookInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    where bki_id = #{bkiId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    where bki_id = (select min(bki_id) from tb_book_info)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    where bki_id = (select max(bki_id) from tb_book_info)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_book_info
+    where bki_id = #{bkiId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.BookInfoExample">
+    delete from tb_book_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="bki_id" keyProperty="bkiId" parameterType="com.model.BookInfo" useGeneratedKeys="true">
+    insert into tb_book_info (bki_id, bki_name, bki_type, bki_writer,
+      bki_concern, bki_publish_date, bki_price, bki_register_date,
+      bki_count, bki_czy, bki_remark)
+    values (#{bkiId,jdbcType=VARCHAR}, #{bkiName,jdbcType=VARCHAR}, #{bkiType,jdbcType=VARCHAR}, #{bkiWriter,jdbcType=VARCHAR},
+      #{bkiConcern,jdbcType=VARCHAR}, #{bkiPublishDate,jdbcType=TIMESTAMP}, #{bkiPrice,jdbcType=DOUBLE}, 
+      #{bkiRegisterDate,jdbcType=TIMESTAMP}, #{bkiCount,jdbcType=INTEGER}, #{bkiCzy,jdbcType=VARCHAR}, 
+      #{bkiRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="bki_id" keyProperty="bkiId" parameterType="com.model.BookInfo" useGeneratedKeys="true">
+    insert into tb_book_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bkiId != null">
+        bki_id,
+      </if>
+      <if test="bkiName != null">
+        bki_name,
+      </if>
+      <if test="bkiType != null">
+        bki_type,
+      </if>
+      <if test="bkiWriter != null">
+        bki_writer,
+      </if>
+      <if test="bkiConcern != null">
+        bki_concern,
+      </if>
+      <if test="bkiPublishDate != null">
+        bki_publish_date,
+      </if>
+      <if test="bkiPrice != null">
+        bki_price,
+      </if>
+      <if test="bkiRegisterDate != null">
+        bki_register_date,
+      </if>
+      <if test="bkiCount != null">
+        bki_count,
+      </if>
+      <if test="bkiCzy != null">
+        bki_czy,
+      </if>
+      <if test="bkiRemark != null">
+        bki_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bkiId != null">
+        #{bkiId,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiName != null">
+        #{bkiName,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiType != null">
+        #{bkiType,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiWriter != null">
+        #{bkiWriter,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiConcern != null">
+        #{bkiConcern,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiPublishDate != null">
+        #{bkiPublishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bkiPrice != null">
+        #{bkiPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="bkiRegisterDate != null">
+        #{bkiRegisterDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bkiCount != null">
+        #{bkiCount,jdbcType=INTEGER},
+      </if>
+      <if test="bkiCzy != null">
+        #{bkiCzy,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiRemark != null">
+        #{bkiRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.BookInfoExample" resultType="java.lang.Long">
+    select count(*) from tb_book_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_book_info
+    <set>
+      <if test="record.bkiId != null">
+        bki_id = #{record.bkiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkiName != null">
+        bki_name = #{record.bkiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkiType != null">
+        bki_type = #{record.bkiType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkiWriter != null">
+        bki_writer = #{record.bkiWriter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkiConcern != null">
+        bki_concern = #{record.bkiConcern,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkiPublishDate != null">
+        bki_publish_date = #{record.bkiPublishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bkiPrice != null">
+        bki_price = #{record.bkiPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bkiRegisterDate != null">
+        bki_register_date = #{record.bkiRegisterDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bkiCount != null">
+        bki_count = #{record.bkiCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.bkiCzy != null">
+        bki_czy = #{record.bkiCzy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkiRemark != null">
+        bki_remark = #{record.bkiRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_book_info
+    set bki_id = #{record.bkiId,jdbcType=VARCHAR},
+      bki_name = #{record.bkiName,jdbcType=VARCHAR},
+      bki_type = #{record.bkiType,jdbcType=VARCHAR},
+      bki_writer = #{record.bkiWriter,jdbcType=VARCHAR},
+      bki_concern = #{record.bkiConcern,jdbcType=VARCHAR},
+      bki_publish_date = #{record.bkiPublishDate,jdbcType=TIMESTAMP},
+      bki_price = #{record.bkiPrice,jdbcType=DOUBLE},
+      bki_register_date = #{record.bkiRegisterDate,jdbcType=TIMESTAMP},
+      bki_count = #{record.bkiCount,jdbcType=INTEGER},
+      bki_czy = #{record.bkiCzy,jdbcType=VARCHAR},
+      bki_remark = #{record.bkiRemark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.BookInfo">
+    update tb_book_info
+    <set>
+      <if test="bkiName != null">
+        bki_name = #{bkiName,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiType != null">
+        bki_type = #{bkiType,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiWriter != null">
+        bki_writer = #{bkiWriter,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiConcern != null">
+        bki_concern = #{bkiConcern,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiPublishDate != null">
+        bki_publish_date = #{bkiPublishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bkiPrice != null">
+        bki_price = #{bkiPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="bkiRegisterDate != null">
+        bki_register_date = #{bkiRegisterDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bkiCount != null">
+        bki_count = #{bkiCount,jdbcType=INTEGER},
+      </if>
+      <if test="bkiCzy != null">
+        bki_czy = #{bkiCzy,jdbcType=VARCHAR},
+      </if>
+      <if test="bkiRemark != null">
+        bki_remark = #{bkiRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bki_id = #{bkiId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.BookInfo">
+    update tb_book_info
+    set bki_name = #{bkiName,jdbcType=VARCHAR},
+      bki_type = #{bkiType,jdbcType=VARCHAR},
+      bki_writer = #{bkiWriter,jdbcType=VARCHAR},
+      bki_concern = #{bkiConcern,jdbcType=VARCHAR},
+      bki_publish_date = #{bkiPublishDate,jdbcType=TIMESTAMP},
+      bki_price = #{bkiPrice,jdbcType=DOUBLE},
+      bki_register_date = #{bkiRegisterDate,jdbcType=TIMESTAMP},
+      bki_count = #{bkiCount,jdbcType=INTEGER},
+      bki_czy = #{bkiCzy,jdbcType=VARCHAR},
+      bki_remark = #{bkiRemark,jdbcType=VARCHAR}
+    where bki_id = #{bkiId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_book_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_book_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_book_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_book_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_book_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_book_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.CourseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.model.CourseInfo">
+    <id column="csi_id" jdbcType="VARCHAR" property="csiId" />
+    <result column="scc_code" jdbcType="VARCHAR" property="sccCode" />
+    <result column="sti_id" jdbcType="VARCHAR" property="stiId" />
+    <result column="csi_grade" jdbcType="VARCHAR" property="csiGrade" />
+    <result column="csi_exam_type" jdbcType="VARCHAR" property="csiExamType" />
+    <result column="csi_exam_date" jdbcType="TIMESTAMP" property="csiExamDate" />
+    <result column="csi_czy" jdbcType="VARCHAR" property="csiCzy" />
+  </resultMap>
+  <resultMap id="BaseResultMapExtends" type="com.model.CourseInfo" extends="BaseResultMap">
+    <association property="systemCourseCode" javaType="com.model.SystemCourseCode"
+                 select="com.mapper.SystemCourseCodeMapper.selectByPrimaryKey" column="scc_code">
+    </association>
+    <association property="studentInfo" javaType="com.model.StudentInfo"
+                 select="com.mapper.StudentInfoMapper.selectByPrimaryKey" column="sti_id">
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.csiId != null">
+        csi_id = #{record.csiId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.sccCode != null">
+        and scc_code = #{record.sccCode,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiId != null">
+        and sti_id = #{record.stiId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.csiGrade != null">
+        and csi_grade = #{record.csiGrade,jdbcType=VARCHAR}
+      </if>
+      <if test="record.csiExamType != null">
+        and csi_exam_type = #{record.csiExamType,jdbcType=VARCHAR}
+      </if>
+      <if test="record.csiExamDate != null">
+        and csi_exam_date = #{record.csiExamDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.csiCzy != null">
+        and csi_czy = #{record.csiCzy,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.csiId != null">
+        csi_id like concat('%', #{record.csiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.sccCode != null">
+        and scc_code like concat('%', #{record.sccCode,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiId != null">
+        and sti_id like concat('%', #{record.stiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.csiGrade != null">
+        and csi_grade like concat('%', #{record.stiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.csiExamType != null">
+        and csi_exam_type like concat('%', #{record.csiExamType,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.csiExamDate != null">
+        and csi_exam_date like concat('%', #{record.csiExamDate,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.csiCzy != null">
+        and csi_czy like concat('%', #{record.csiCzy,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    csi_id, scc_code, sti_id, csi_grade, csi_exam_type, csi_exam_date, csi_czy
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        csi_id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.CourseInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    where csi_id = #{csiId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    where csi_id = (select min(csi_id) from tb_course_info)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    where csi_id = (select max(csi_id) from tb_course_info)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_course_info
+    where csi_id = #{csiId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.CourseInfoExample">
+    delete from tb_course_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="csi_id" keyProperty="csiId" parameterType="com.model.CourseInfo" useGeneratedKeys="true">
+    insert into tb_course_info (csi_id, scc_code, sti_id, csi_grade,
+      csi_exam_type, csi_exam_date, csi_czy
+      )
+    values (#{csiId,jdbcType=VARCHAR}, #{sccCode,jdbcType=VARCHAR}, #{stiId,jdbcType=VARCHAR}, #{stiId,jdbcType=VARCHAR},
+      #{csiExamType,jdbcType=VARCHAR}, #{csiExamDate,jdbcType=TIMESTAMP}, #{csiCzy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="csi_id" keyProperty="csiId" parameterType="com.model.CourseInfo" useGeneratedKeys="true">
+    insert into tb_course_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sccCode != null">
+        scc_code,
+      </if>
+      <if test="stiId != null">
+        sti_id,
+      </if>
+      <if test="csiGrade != null">
+        csi_grade,
+      </if>
+      <if test="csiExamType != null">
+        csi_exam_type,
+      </if>
+      <if test="csiExamDate != null">
+        csi_exam_date,
+      </if>
+      <if test="csiCzy != null">
+        csi_czy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sccCode != null">
+        #{sccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stiId != null">
+        #{stiId,jdbcType=VARCHAR},
+      </if>
+      <if test="csiGrade != null">
+        #{csiGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="csiExamType != null">
+        #{csiExamType,jdbcType=VARCHAR},
+      </if>
+      <if test="csiExamDate != null">
+        #{csiExamDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="csiCzy != null">
+        #{csiCzy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.CourseInfoExample" resultType="java.lang.Long">
+    select count(*) from tb_course_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_course_info
+    <set>
+      <if test="record.csiId != null">
+        csi_id = #{record.csiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sccCode != null">
+        scc_code = #{record.sccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiId != null">
+        sti_id = #{record.stiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csiGrade != null">
+        csi_grade = #{record.csiGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csiExamType != null">
+        csi_exam_type = #{record.csiExamType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csiExamDate != null">
+        csi_exam_date = #{record.csiExamDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.csiCzy != null">
+        csi_czy = #{record.csiCzy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_course_info
+    set csi_id = #{record.csiId,jdbcType=VARCHAR},
+      scc_code = #{record.sccCode,jdbcType=VARCHAR},
+      sti_id = #{record.stiId,jdbcType=VARCHAR},
+      csi_grade = #{record.csiGrade,jdbcType=VARCHAR},
+      csi_exam_type = #{record.csiExamType,jdbcType=VARCHAR},
+      csi_exam_date = #{record.csiExamDate,jdbcType=TIMESTAMP},
+      csi_czy = #{record.csiCzy,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.CourseInfo">
+    update tb_course_info
+    <set>
+      <if test="sccCode != null">
+        scc_code = #{sccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stiId != null">
+        sti_id = #{stiId,jdbcType=VARCHAR},
+      </if>
+      <if test="csiGrade != null">
+        csi_grade = #{csiGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="csiExamType != null">
+        csi_exam_type = #{csiExamType,jdbcType=VARCHAR},
+      </if>
+      <if test="csiExamDate != null">
+        csi_exam_date = #{csiExamDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="csiCzy != null">
+        csi_czy = #{csiCzy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where csi_id = #{csiId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.CourseInfo">
+    update tb_course_info
+    set scc_code = #{sccCode,jdbcType=VARCHAR},
+      sti_id = #{stiId,jdbcType=VARCHAR},
+      csi_grade = #{csiGrade,jdbcType=VARCHAR},
+      csi_exam_type = #{csiExamType,jdbcType=VARCHAR},
+      csi_exam_date = #{csiExamDate,jdbcType=TIMESTAMP},
+      csi_czy = #{csiCzy,jdbcType=VARCHAR}
+    where csi_id = #{csiId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMapExtends" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_course_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_course_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_course_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_course_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_course_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_course_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>

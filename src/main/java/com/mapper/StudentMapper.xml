@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.model.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_birth" jdbcType="TIMESTAMP" property="userBirth" />
+    <result column="user_class" jdbcType="VARCHAR" property="userClass" />
+    <result column="date_create" jdbcType="TIMESTAMP" property="dateCreate" />
+    <result column="date_update" jdbcType="TIMESTAMP" property="dateUpdate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER}
+      </if>
+      <if test="record.userNo != null">
+        and user_no = #{record.userNo,jdbcType=VARCHAR}
+      </if>
+      <if test="record.userName != null">
+        and user_name = #{record.userName,jdbcType=VARCHAR}
+      </if>
+      <if test="record.userPwd != null">
+        and user_pwd = #{record.userPwd,jdbcType=VARCHAR}
+      </if>
+      <if test="record.userSex != null">
+        and user_sex = #{record.userSex,jdbcType=VARCHAR}
+      </if>
+      <if test="record.userBirth != null">
+        and user_birth = #{record.userBirth,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.userClass != null">
+        and user_class = #{record.userClass,jdbcType=VARCHAR}
+      </if>
+      <if test="record.dateCreate != null">
+        and date_create = #{record.dateCreate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.dateUpdate != null">
+        and date_update = #{record.dateUpdate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.id != null">
+        id like concat('%', #{record.id,jdbcType=INTEGER}, '%')
+      </if>
+      <if test="record.userNo != null">
+        and user_no like concat('%', #{record.userNo,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.userName != null">
+        and user_name like concat('%', #{record.userName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.userPwd != null">
+        and user_pwd like concat('%', #{record.userPwd,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.userSex != null">
+        and user_sex like concat('%', #{record.userSex,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.userBirth != null">
+        and user_birth like concat('%', #{record.userBirth,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.userClass != null">
+        and user_class like concat('%', #{record.userClass,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.dateCreate != null">
+        and date_create like concat('%', #{record.dateCreate,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.dateUpdate != null">
+        and date_update like concat('%', #{record.dateUpdate,jdbcType=TIMESTAMP}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_no, user_name, user_pwd, user_sex, user_birth, user_class, date_create, 
+    date_update
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.StudentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.model.StudentKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_student
+    where id = #{id,jdbcType=INTEGER}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+    where id = (select min(id) from tb_student)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+    where id = (select max(id) from tb_student)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.model.StudentKey">
+    delete from tb_student
+    where id = #{id,jdbcType=INTEGER}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.StudentExample">
+    delete from tb_student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.model.Student" useGeneratedKeys="true">
+    insert into tb_student (id, user_no, user_name, user_pwd,
+      user_sex, user_birth, user_class, 
+      date_create, date_update)
+    values (#{id,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR},
+      #{userSex,jdbcType=VARCHAR}, #{userBirth,jdbcType=TIMESTAMP}, #{userClass,jdbcType=VARCHAR}, 
+      #{dateCreate,jdbcType=TIMESTAMP}, #{dateUpdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.model.Student" useGeneratedKeys="true">
+    insert into tb_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPwd != null">
+        user_pwd,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userBirth != null">
+        user_birth,
+      </if>
+      <if test="userClass != null">
+        user_class,
+      </if>
+      <if test="dateCreate != null">
+        date_create,
+      </if>
+      <if test="dateUpdate != null">
+        date_update,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null">
+        #{userBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userClass != null">
+        #{userClass,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreate != null">
+        #{dateCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateUpdate != null">
+        #{dateUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.StudentExample" resultType="java.lang.Long">
+    select count(*) from tb_student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_student
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPwd != null">
+        user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSex != null">
+        user_sex = #{record.userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userBirth != null">
+        user_birth = #{record.userBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userClass != null">
+        user_class = #{record.userClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dateCreate != null">
+        date_create = #{record.dateCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dateUpdate != null">
+        date_update = #{record.dateUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_student
+    set id = #{record.id,jdbcType=INTEGER},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      user_sex = #{record.userSex,jdbcType=VARCHAR},
+      user_birth = #{record.userBirth,jdbcType=TIMESTAMP},
+      user_class = #{record.userClass,jdbcType=VARCHAR},
+      date_create = #{record.dateCreate,jdbcType=TIMESTAMP},
+      date_update = #{record.dateUpdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Student">
+    update tb_student
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null">
+        user_birth = #{userBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userClass != null">
+        user_class = #{userClass,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreate != null">
+        date_create = #{dateCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateUpdate != null">
+        date_update = #{dateUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Student">
+    update tb_student
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_birth = #{userBirth,jdbcType=TIMESTAMP},
+      user_class = #{userClass,jdbcType=VARCHAR},
+      date_create = #{dateCreate,jdbcType=TIMESTAMP},
+      date_update = #{dateUpdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and user_no = #{userNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from tb_student
+  <include refid="Model_Where_Clause" />
+</select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>

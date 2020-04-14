@@ -1,0 +1,119 @@
+h1 {
+    color: darkred;
+}
+h2 {
+    color: #000a8b;
+}
+body {
+    FONT-SIZE: 9pt;
+    margin: 0px;
+    background-image: url("pageBackImg.jpg");
+    text-align : left;
+    text-transform : none;
+    line-height : normal;
+    vertical-align : text-top;
+    text-indent : 1px;
+    display :  block;
+    font-family : Verdana,Arial, sans-serif;
+    color : black;
+    white-space : normal;
+    /*scrollbar-face-color : Cornflowerblue;*/
+    /*scrollbar-shadow-color : Slategray;*/
+    /*scrollbar-highlight-color : Lightslategray;*/
+    /*scrollbar-3dlight-color : Slategray;*/
+    /*scrollbar-darkshadow-color : Black;*/
+    /*scrollbar-track-color : Lightsteelblue;*/
+    /*scrollbar-arrow-color : Gainsboro;*/
+}
+image{
+    border-color: #999999;
+}
+td {
+    font-size: 9pt; line-height:144%;
+}
+a:hover {
+    font-size: 9pt;	color: #CC0000;
+}
+a {
+    font-size: 9pt;	text-decoration: none;	color: #000000;
+}
+input {
+    font-family: 宋体;
+    font-size: 9pt;
+    color: #333333;
+}
+hr{
+    color: #9CA6C6;
+}
+.hand {cursor: hand
+
+}
+.word_orange {
+    font-size: 9pt;
+    color: #FF6600;
+}
+.button_ex {
+    background-image: url('images/button.gif');
+    background-repeat: no-repeat;
+    text-align: center;
+    padding-top: 3px;
+    background-position: center 50%
+}
+div.quote{
+    margin: 5px 20px;
+    padding: 5px;
+    background: #8492b9;
+    line-height : normal;
+}
+div.HtmlCode{
+    margin: 5px 20px;
+    border: 1px solid #AAAAAA;
+    padding: 5px;
+    background: #FDFDDF;
+    font-size: 12px;
+    font-family: Tahoma;
+    font-style: oblique;
+    line-height: normal;
+    font-weight: bold;
+}
+div {
+    /*用div的样式代替select的样式*/
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    /*盒子阴影修饰作用,自己随意*/
+    box-shadow: 0 0 5px #ccc;
+    position: relative;
+}
+.form_select {
+    /*清除select的边框样式*/
+    border: none;
+    /*清除select聚焦时候的边框颜色*/
+    outline: none;
+    /*隐藏select的下拉图标*/
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /*将select的宽高等于div的宽高*/
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    box-sizing: border-box;
+    /*通过padding-left的值让文字居中*/
+    padding-left: 60px;
+    color: #868686;
+    font-size:20px;
+}
+div:after{
+    /*使用伪类给select添加自己想用的图标*/
+    content: "";
+    width: 14px;
+    height: 8px;
+    background: url(drop.jpg) no-repeat center;
+    /*通过定位将图标放在合适的位置*/
+    position: absolute;
+    right: 20px;
+    top: 45%;
+    /*给自定义的图标实现点击下来功能*/
+    pointer-events: none;
+}

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.SystemSpecialtyCodeMapper">
+  <resultMap id="BaseResultMap" type="com.model.SystemSpecialtyCode">
+    <id column="ssc_code" jdbcType="VARCHAR" property="sscCode" />
+    <result column="ssc_name" jdbcType="VARCHAR" property="sscName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.sscCode != null">
+        ssc_code = #{record.sscCode,jdbcType=VARCHAR}
+      </if>
+      <if test="record.sscName != null">
+        and ssc_name = #{record.sscName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.sscCode != null">
+        ssc_code like concat('%', #{record.sscCode,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.sscName != null">
+        and ssc_name like concat('%', #{record.sscName,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ssc_code, ssc_name
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        ssc_id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.SystemSpecialtyCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    where ssc_code = #{sscCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    where ssc_code = (select min(ssc_code) from tb_system_specialty_code)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    where ssc_code = (select max(ssc_code) from tb_system_specialty_code)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_system_specialty_code
+    where ssc_code = #{sscCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.SystemSpecialtyCodeExample">
+    delete from tb_system_specialty_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ssc_code" keyProperty="sscCode" parameterType="com.model.SystemSpecialtyCode" useGeneratedKeys="true">
+    insert into tb_system_specialty_code (ssc_code, ssc_name)
+    values (#{sscCode,jdbcType=VARCHAR}, #{sscName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="ssc_code" keyProperty="sscCode" parameterType="com.model.SystemSpecialtyCode" useGeneratedKeys="true">
+    insert into tb_system_specialty_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sscCode != null">
+        ssc_code,
+      </if>
+      <if test="sscName != null">
+        ssc_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sscCode != null">
+        #{sscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sscName != null">
+        #{sscName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.SystemSpecialtyCodeExample" resultType="java.lang.Long">
+    select count(*) from tb_system_specialty_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_system_specialty_code
+    <set>
+      <if test="record.sscCode != null">
+        ssc_code = #{record.sscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sscName != null">
+        ssc_name = #{record.sscName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_system_specialty_code
+    set ssc_code = #{record.sscCode,jdbcType=VARCHAR},
+      ssc_name = #{record.sscName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.SystemSpecialtyCode">
+    update tb_system_specialty_code
+    <set>
+      <if test="sscName != null">
+        ssc_name = #{sscName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ssc_code = #{sscCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.SystemSpecialtyCode">
+    update tb_system_specialty_code
+    set ssc_name = #{sscName,jdbcType=VARCHAR}
+    where ssc_code = #{sscCode,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_system_specialty_code
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AssignClassMapper">
+  <resultMap id="BaseResultMap" type="com.model.AssignClass">
+    <id column="acs_id" jdbcType="VARCHAR" property="acsId" />
+    <result column="tei_id" jdbcType="VARCHAR" property="teiId" />
+    <result column="sci_id" jdbcType="VARCHAR" property="sciId" />
+    <result column="acs_rzrq" jdbcType="TIMESTAMP" property="acsRzrq" />
+    <result column="acs_lzrq" jdbcType="TIMESTAMP" property="acsLzrq" />
+  </resultMap>
+  <resultMap id="BaseResultMapExtends" type="com.model.AssignClass" extends="BaseResultMap">
+    <association property="teacherInfo" javaType="com.model.TeacherInfo"
+                 select="com.mapper.TeacherInfoMapper.selectByPrimaryKey" column="tei_id">
+    </association>
+    <association property="systemClassInfo" javaType="com.model.SystemClassInfo"
+                 select="com.mapper.SystemClassInfoMapper.selectByPrimaryKey" column="sci_id">
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.acsId != null">
+        acs_id = #{record.acsId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiId != null">
+        and tei_id = #{record.teiId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.sciId != null">
+        and sci_id = #{record.sciId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.acsRzrq != null">
+        and acs_rzrq = #{record.acsRzrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.acsLzrq != null">
+        and acs_lzrq = #{record.acsLzrq,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.acsId != null">
+        acs_id like concat('%', #{record.acsId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiId != null">
+        and tei_id like concat('%', #{record.teiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.sciId != null">
+        and sci_id like concat('%', #{record.sciId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.acsRzrq != null">
+        and acs_rzrq like concat('%', #{record.acsRzrq,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.acsLzrq != null">
+        and acs_lzrq like concat('%', #{record.acsLzrq,jdbcType=TIMESTAMP}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    acs_id, tei_id, sci_id, acs_rzrq, acs_lzrq
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        acs_id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.AssignClassExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    where acs_id = #{acsId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    where acs_id = (select min(acs_id) from tb_assign_class)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    where acs_id = (select max(acs_id) from tb_assign_class)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_assign_class
+    where acs_id = #{acsId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.AssignClassExample">
+    delete from tb_assign_class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="acs_id" keyProperty="acsId" parameterType="com.model.AssignClass" useGeneratedKeys="true">
+    insert into tb_assign_class (acs_id, tei_id, sci_id, acs_rzrq, acs_lzrq)
+    values (#{acsId,jdbcType=VARCHAR}, #{teiId,jdbcType=VARCHAR}, #{sciId,jdbcType=VARCHAR}, #{acsRzrq,jdbcType=TIMESTAMP},
+      #{acsLzrq,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="acs_id" keyProperty="acsId" parameterType="com.model.AssignClass" useGeneratedKeys="true">
+    insert into tb_assign_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="acsId != null">
+        acs_id,
+      </if>
+      <if test="teiId != null">
+        tei_id,
+      </if>
+      <if test="sciId != null">
+        sci_id,
+      </if>
+      <if test="acsRzrq != null">
+        acs_rzrq,
+      </if>
+      <if test="acsLzrq != null">
+        acs_lzrq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="acsId != null">
+        #{acsId,jdbcType=VARCHAR},
+      </if>
+      <if test="teiId != null">
+        #{teiId,jdbcType=VARCHAR},
+      </if>
+      <if test="sciId != null">
+        #{sciId,jdbcType=VARCHAR},
+      </if>
+      <if test="acsRzrq != null">
+        #{acsRzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acsLzrq != null">
+        #{acsLzrq,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.AssignClassExample" resultType="java.lang.Long">
+    select count(*) from tb_assign_class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_assign_class
+    <set>
+      <if test="record.acsId != null">
+        acs_id = #{record.acsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiId != null">
+        tei_id = #{record.teiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sciId != null">
+        sci_id = #{record.sciId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acsRzrq != null">
+        acs_rzrq = #{record.acsRzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acsLzrq != null">
+        acs_lzrq = #{record.acsLzrq,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_assign_class
+    set acs_id = #{record.acsId,jdbcType=VARCHAR},
+    tei_id = #{record.teiId,jdbcType=VARCHAR},
+    sci_id = #{record.sciId,jdbcType=VARCHAR},
+    acs_rzrq = #{record.acsRzrq,jdbcType=TIMESTAMP},
+    acs_lzrq = #{record.acsLzrq,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.AssignClass">
+    update tb_assign_class
+    <set>
+      <if test="teiId != null">
+        tei_id = #{teiId,jdbcType=VARCHAR},
+      </if>
+      <if test="sciId != null">
+        sci_id = #{sciId,jdbcType=VARCHAR},
+      </if>
+      <if test="acsRzrq != null">
+        acs_rzrq = #{acsRzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acsLzrq != null">
+        acs_lzrq = #{acsLzrq,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where acs_id = #{acsId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.AssignClass">
+    update tb_assign_class
+    set tei_id = #{teiId,jdbcType=VARCHAR},
+      sci_id = #{sciId,jdbcType=VARCHAR},
+      acs_rzrq = #{acsRzrq,jdbcType=TIMESTAMP},
+      acs_lzrq = #{acsLzrq,jdbcType=TIMESTAMP}
+    where acs_id = #{acsId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMapExtends" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_assign_class
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_assign_class
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_assign_class
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_assign_class
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_assign_class
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_assign_class
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.StudentInfoMapper">
+  <resultMap id="BaseResultMap" type="com.model.StudentInfo">
+    <id column="sti_id" jdbcType="VARCHAR" property="stiId" />
+    <result column="sti_name" jdbcType="VARCHAR" property="stiName" />
+    <result column="sti_sex" jdbcType="VARCHAR" property="stiSex" />
+    <result column="sti_age" jdbcType="INTEGER" property="stiAge" />
+    <result column="sti_sfzh" jdbcType="VARCHAR" property="stiSfzh" />
+    <result column="sti_csrq" jdbcType="TIMESTAMP" property="stiCsrq" />
+    <result column="sti_zzmm" jdbcType="VARCHAR" property="stiZzmm" />
+    <result column="sti_jtdh" jdbcType="VARCHAR" property="stiJtdh" />
+    <result column="sti_jtdz" jdbcType="VARCHAR" property="stiJtdz" />
+    <result column="sti_jkzk" jdbcType="VARCHAR" property="stiJkzk" />
+  </resultMap>
+  <resultMap id="BaseResultMapExtends" type="com.model.StudentInfo" extends="BaseResultMap">
+    <collection property="courseInfos" javaType="list" ofType="com.model.CourseInfo"
+                select="com.mapper.CourseInfoMapper.selectByStudentId" column="sti_id">
+    </collection>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.stiId != null">
+        sti_id = #{record.stiId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiName != null">
+        and sti_name = #{record.stiName,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiSex != null">
+        and sti_sex = #{record.stiSex,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiAge != null">
+        and sti_age = #{record.stiAge,jdbcType=INTEGER}
+      </if>
+      <if test="record.stiSfzhm != null">
+        and sti_sfzhm = #{record.stiSfzhm,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiCsrq != null">
+        and sti_csrq = #{record.stiCsrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.stiZzmm != null">
+        and sti_zzmm = #{record.stiZzmm,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiJtdh != null">
+        and sti_jtdh = #{record.stiJtdh,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiJtdz != null">
+        and sti_jtdz = #{record.stiJtdz,jdbcType=VARCHAR}
+      </if>
+      <if test="record.stiJkzk != null">
+        and sti_jkzk = #{record.stiJkzk,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.stiId != null">
+        sti_id like concat('%', #{record.stiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiName != null">
+        and sti_name like concat('%', #{record.stiName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiSex != null">
+        and sti_sex like concat('%', #{record.stiSex,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiAge != null">
+        and sti_age like concat('%', #{record.stiAge,jdbcType=INTEGER}, '%')
+      </if>
+      <if test="record.stiSfzhm != null">
+        and sti_sfzhm like concat('%', #{record.stiSfzhm,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiCsrq != null">
+        and sti_csrq like concat('%', #{record.stiCsrq,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.stiZzmm != null">
+        and sti_zzmm like concat('%', #{record.stiZzmm,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiJtdh != null">
+        and sti_jtdh like concat('%', #{record.stiJtdh,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiJtdz != null">
+        and sti_jtdz like concat('%', #{record.stiJtdz,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.stiJkzk != null">
+        and sti_jkzk like concat('%', #{record.stiJkzk,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sti_id, sti_name, sti_sex, sti_age, sti_sfzh, sti_csrq, sti_zzmm, sti_jtdh, sti_jtdz,
+    sti_jkzk
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        sti_id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.StudentInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    where sti_id = #{stiId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    where sti_id = (select min(sti_id) from tb_student_info)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    where sti_id = (select max(sti_id) from tb_student_info)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_student_info
+    where sti_id = #{stiId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.StudentInfoExample">
+    delete from tb_student_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="sti_id" keyProperty="stiId" parameterType="com.model.StudentInfo" useGeneratedKeys="true">
+    insert into tb_student_info (sti_id, sti_name, sti_sex, sti_age,
+      sti_sfzh, sti_csrq, sti_zzmm, 
+      sti_jtdh, sti_jtdz, sti_jkzk
+      )
+    values (#{stiId,jdbcType=VARCHAR}, #{stiName,jdbcType=VARCHAR}, #{stiSex,jdbcType=VARCHAR}, #{stiAge,jdbcType=INTEGER},
+      #{stiSfzh,jdbcType=VARCHAR}, #{stiCsrq,jdbcType=TIMESTAMP}, #{stiZzmm,jdbcType=VARCHAR}, 
+      #{stiJtdh,jdbcType=VARCHAR}, #{stiJtdz,jdbcType=VARCHAR}, #{stiJkzk,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="sti_id" keyProperty="stiId" parameterType="com.model.StudentInfo" useGeneratedKeys="true">
+    insert into tb_student_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stiId != null">
+        sti_id,
+      </if>
+      <if test="stiName != null">
+        sti_name,
+      </if>
+      <if test="stiSex != null">
+        sti_sex,
+      </if>
+      <if test="stiAge != null">
+        sti_age,
+      </if>
+      <if test="stiSfzh != null">
+        sti_sfzh,
+      </if>
+      <if test="stiCsrq != null">
+        sti_csrq,
+      </if>
+      <if test="stiZzmm != null">
+        sti_zzmm,
+      </if>
+      <if test="stiJtdh != null">
+        sti_jtdh,
+      </if>
+      <if test="stiJtdz != null">
+        sti_jtdz,
+      </if>
+      <if test="stiJkzk != null">
+        sti_jkzk,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stiId != null">
+        #{stiId,jdbcType=VARCHAR},
+      </if>
+      <if test="stiName != null">
+        #{stiName,jdbcType=VARCHAR},
+      </if>
+      <if test="stiSex != null">
+        #{stiSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stiAge != null">
+        #{stiAge,jdbcType=INTEGER},
+      </if>
+      <if test="stiSfzh != null">
+        #{stiSfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="stiCsrq != null">
+        #{stiCsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stiZzmm != null">
+        #{stiZzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="stiJtdh != null">
+        #{stiJtdh,jdbcType=VARCHAR},
+      </if>
+      <if test="stiJtdz != null">
+        #{stiJtdz,jdbcType=VARCHAR},
+      </if>
+      <if test="stiJkzk != null">
+        #{stiJkzk,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.StudentInfoExample" resultType="java.lang.Long">
+    select count(*) from tb_student_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_student_info
+    <set>
+      <if test="record.stiId != null">
+        sti_id = #{record.stiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiName != null">
+        sti_name = #{record.stiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiSex != null">
+        sti_sex = #{record.stiSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiAge != null">
+        sti_age = #{record.stiAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.stiSfzh != null">
+        sti_sfzh = #{record.stiSfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiCsrq != null">
+        sti_csrq = #{record.stiCsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stiZzmm != null">
+        sti_zzmm = #{record.stiZzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiJtdh != null">
+        sti_jtdh = #{record.stiJtdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiJtdz != null">
+        sti_jtdz = #{record.stiJtdz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stiJkzk != null">
+        sti_jkzk = #{record.stiJkzk,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_student_info
+    set sti_id = #{record.stiId,jdbcType=VARCHAR},
+      sti_name = #{record.stiName,jdbcType=VARCHAR},
+      sti_sex = #{record.stiSex,jdbcType=VARCHAR},
+      sti_age = #{record.stiAge,jdbcType=INTEGER},
+      sti_sfzh = #{record.stiSfzh,jdbcType=VARCHAR},
+      sti_csrq = #{record.stiCsrq,jdbcType=TIMESTAMP},
+      sti_zzmm = #{record.stiZzmm,jdbcType=VARCHAR},
+      sti_jtdh = #{record.stiJtdh,jdbcType=VARCHAR},
+      sti_jtdz = #{record.stiJtdz,jdbcType=VARCHAR},
+      sti_jkzk = #{record.stiJkzk,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.StudentInfo">
+    update tb_student_info
+    <set>
+      <if test="stiName != null">
+        sti_name = #{stiName,jdbcType=VARCHAR},
+      </if>
+      <if test="stiSex != null">
+        sti_sex = #{stiSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stiAge != null">
+        sti_age = #{stiAge,jdbcType=INTEGER},
+      </if>
+      <if test="stiSfzh != null">
+        sti_sfzh = #{stiSfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="stiCsrq != null">
+        sti_csrq = #{stiCsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stiZzmm != null">
+        sti_zzmm = #{stiZzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="stiJtdh != null">
+        sti_jtdh = #{stiJtdh,jdbcType=VARCHAR},
+      </if>
+      <if test="stiJtdz != null">
+        sti_jtdz = #{stiJtdz,jdbcType=VARCHAR},
+      </if>
+      <if test="stiJkzk != null">
+        sti_jkzk = #{stiJkzk,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sti_id = #{stiId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.StudentInfo">
+    update tb_student_info
+    set sti_name = #{stiName,jdbcType=VARCHAR},
+      sti_sex = #{stiSex,jdbcType=VARCHAR},
+      sti_age = #{stiAge,jdbcType=INTEGER},
+      sti_sfzh = #{stiSfzh,jdbcType=VARCHAR},
+      sti_csrq = #{stiCsrq,jdbcType=TIMESTAMP},
+      sti_zzmm = #{stiZzmm,jdbcType=VARCHAR},
+      sti_jtdh = #{stiJtdh,jdbcType=VARCHAR},
+      sti_jtdz = #{stiJtdz,jdbcType=VARCHAR},
+      sti_jkzk = #{stiJkzk,jdbcType=VARCHAR}
+    where sti_id = #{stiId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_student_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_student_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>

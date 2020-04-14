@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.TeacherInfoMapper">
+  <resultMap id="BaseResultMap" type="com.model.TeacherInfo">
+    <id column="tei_id" jdbcType="VARCHAR" property="teiId" />
+    <result column="ssc_code" jdbcType="VARCHAR" property="sscCode" />
+    <result column="tei_name" jdbcType="VARCHAR" property="teiName" />
+    <result column="tei_sex" jdbcType="VARCHAR" property="teiSex" />
+    <result column="tei_age" jdbcType="INTEGER" property="teiAge" />
+    <result column="tei_minzu" jdbcType="VARCHAR" property="teiMinzu" />
+    <result column="tei_zzmm" jdbcType="VARCHAR" property="teiZzmm" />
+    <result column="tei_xueli" jdbcType="VARCHAR" property="teiXueli" />
+    <result column="tei_hunfou" jdbcType="VARCHAR" property="teiHunfou" />
+    <result column="tei_csrq" jdbcType="TIMESTAMP" property="teiCsrq" />
+    <result column="tei_sfzh" jdbcType="VARCHAR" property="teiSfzh" />
+    <result column="tei_lxdh" jdbcType="VARCHAR" property="teiLxdh" />
+    <result column="tei_gzrq" jdbcType="TIMESTAMP" property="teiGzrq" />
+    <result column="tei_gzjj" jdbcType="VARCHAR" property="teiGzjj" />
+  </resultMap>
+  <resultMap id="BaseResultMapExtends" type="com.model.TeacherInfo" extends="BaseResultMap">
+    <association property="systemSpecialtyCode" javaType="com.model.SystemSpecialtyCode"
+                 select="com.mapper.SystemSpecialtyCodeMapper.selectByPrimaryKey" column="ssc_code">
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Model_Where_Clause">
+    <where>
+      <if test="record.teiId != null">
+        tei_id = #{record.teiId,jdbcType=VARCHAR}
+      </if>
+      <if test="record.sscCode != null">
+        and ssc_code = #{record.sscCode,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiName != null">
+        and tei_name = #{record.teiName,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiSex != null">
+        and tei_sex = #{record.teiSex,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiAge != null">
+        and tei_age = #{record.teiAge,jdbcType=INTEGER}
+      </if>
+      <if test="record.teiMinzu != null">
+        and tei_minzu = #{record.teiMinzu,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiZzmm != null">
+        and tei_zzmm = #{record.teiZzmm,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiXueli != null">
+        and tei_xueli = #{record.teiXueli,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiHunfou != null">
+        and tei_hunfou = #{record.teiHunfou,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiCsrq != null">
+        and tei_csrq = #{record.teiCsrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.teiSfzh != null">
+        and tei_sfzh = #{record.teiSfzh,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiLxdh != null">
+        and tei_lxdh = #{record.teiLxdh,jdbcType=VARCHAR}
+      </if>
+      <if test="record.teiGzrq != null">
+        and tei_gzrq = #{record.teiGzrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="record.teiGzjj != null">
+        and tei_gzjj = #{record.teiGzjj,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <sql id="Model_Query_Clause">
+    <where>
+      <if test="record.teiId != null">
+        tei_id like concat('%', #{record.teiId,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.sscCode != null">
+        and ssc_code like concat('%', #{record.sscCode,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiName != null">
+        and tei_name like concat('%', #{record.teiName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiSex != null">
+        and tei_sex like concat('%', #{record.teiSex,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiAge != null">
+        and tei_age like concat('%', #{record.teiAge,jdbcType=INTEGER}, '%')
+      </if>
+      <if test="record.teiMinzu != null">
+        and tei_minzu like concat('%', #{record.teiMinzu,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiZzmm != null">
+        and tei_zzmm like concat('%', #{record.teiZzmm,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiXueli != null">
+        and tei_xueli like concat('%', #{record.teiXueli,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiHunfou != null">
+        and tei_hunfou like concat('%', #{record.teiHunfou,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiCsrq != null">
+        and tei_csrq like concat('%', #{record.teiCsrq,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.teiSfzh != null">
+        and tei_sfzh like concat('%', #{record.teiSfzh,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiLxdh != null">
+        and tei_lxdh like concat('%', #{record.teiLxdh,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="record.teiGzrq != null">
+        and tei_gzrq like concat('%', #{record.teiGzrq,jdbcType=TIMESTAMP}, '%')
+      </if>
+      <if test="record.teiGzjj != null">
+        and tei_gzjj like concat('%', #{record.teiGzjj,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tei_id, ssc_code, tei_name, tei_sex, tei_age, tei_minzu, tei_zzmm, tei_xueli, tei_hunfou, 
+    tei_csrq, tei_sfzh, tei_lxdh, tei_gzrq, tei_gzjj
+  </sql>
+  <sql id="Param_Column_List">
+    <if test="fields != null and fields.length() > 0">
+      ${fields}
+    </if>
+    <if test="fields == null or fields.length() == 0">
+      <include refid="Base_Column_List" />
+    </if>
+  </sql>
+  <sql id="Param_Where_Clause_Like">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} like concat('%', #{value}, '%')
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Equal">
+    <where>
+      <if test="field != null and field.length() > 0">
+        <if test="_parameter.containsKey('value') and value != null">
+          ${field} = #{value}
+        </if>
+        <if test="_parameter.containsKey('value1') and _parameter.containsKey('value2')">
+          <if test="value1 != null and value2 != null">
+            ${field} between #{value1} and #{value2}
+          </if>
+        </if>
+      </if>
+    </where>
+  </sql>
+  <sql id="Param_Where_Clause_Sql">
+    <where>
+      <if test="sql != null and sql.length() > 0">
+        ${sql}
+      </if>
+      <if test="sql == null or sql.length() == 0">
+        tei_id is null
+      </if>
+    </where>
+  </sql>
+  <select id="selectByExample" parameterType="com.model.TeacherInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    where tei_id = #{teiId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMinPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    where tei_id = (select min(tei_id) from tb_teacher_info)
+  </select>
+  <select id="selectByMaxPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    where tei_id = (select max(tei_id) from tb_teacher_info)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_teacher_info
+    where tei_id = #{teiId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.model.TeacherInfoExample">
+    delete from tb_teacher_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="tei_id" keyProperty="teiId" parameterType="com.model.TeacherInfo" useGeneratedKeys="true">
+    insert into tb_teacher_info (tei_id, ssc_code, tei_name, tei_sex,
+      tei_age, tei_minzu, tei_zzmm, 
+      tei_xueli, tei_hunfou, tei_csrq, 
+      tei_sfzh, tei_lxdh, tei_gzrq, 
+      tei_gzjj)
+    values (#{teiId,jdbcType=VARCHAR}, #{sscCode,jdbcType=VARCHAR}, #{teiName,jdbcType=VARCHAR}, #{teiSex,jdbcType=VARCHAR},
+      #{teiAge,jdbcType=INTEGER}, #{teiMinzu,jdbcType=VARCHAR}, #{teiZzmm,jdbcType=VARCHAR}, 
+      #{teiXueli,jdbcType=VARCHAR}, #{teiHunfou,jdbcType=VARCHAR}, #{teiCsrq,jdbcType=TIMESTAMP}, 
+      #{teiSfzh,jdbcType=VARCHAR}, #{teiLxdh,jdbcType=VARCHAR}, #{teiGzrq,jdbcType=TIMESTAMP}, 
+      #{teiGzjj,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="tei_id" keyProperty="teiId" parameterType="com.model.TeacherInfo" useGeneratedKeys="true">
+    insert into tb_teacher_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teiId != null">
+        tei_id,
+      </if>
+      <if test="sscCode != null">
+        ssc_code,
+      </if>
+      <if test="teiName != null">
+        tei_name,
+      </if>
+      <if test="teiSex != null">
+        tei_sex,
+      </if>
+      <if test="teiAge != null">
+        tei_age,
+      </if>
+      <if test="teiMinzu != null">
+        tei_minzu,
+      </if>
+      <if test="teiZzmm != null">
+        tei_zzmm,
+      </if>
+      <if test="teiXueli != null">
+        tei_xueli,
+      </if>
+      <if test="teiHunfou != null">
+        tei_hunfou,
+      </if>
+      <if test="teiCsrq != null">
+        tei_csrq,
+      </if>
+      <if test="teiSfzh != null">
+        tei_sfzh,
+      </if>
+      <if test="teiLxdh != null">
+        tei_lxdh,
+      </if>
+      <if test="teiGzrq != null">
+        tei_gzrq,
+      </if>
+      <if test="teiGzjj != null">
+        tei_gzjj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teiId != null">
+        #{teiId,jdbcType=VARCHAR},
+      </if>
+      <if test="sscCode != null">
+        #{sscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teiName != null">
+        #{teiName,jdbcType=VARCHAR},
+      </if>
+      <if test="teiSex != null">
+        #{teiSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teiAge != null">
+        #{teiAge,jdbcType=INTEGER},
+      </if>
+      <if test="teiMinzu != null">
+        #{teiMinzu,jdbcType=VARCHAR},
+      </if>
+      <if test="teiZzmm != null">
+        #{teiZzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="teiXueli != null">
+        #{teiXueli,jdbcType=VARCHAR},
+      </if>
+      <if test="teiHunfou != null">
+        #{teiHunfou,jdbcType=VARCHAR},
+      </if>
+      <if test="teiCsrq != null">
+        #{teiCsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teiSfzh != null">
+        #{teiSfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="teiLxdh != null">
+        #{teiLxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="teiGzrq != null">
+        #{teiGzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teiGzjj != null">
+        #{teiGzjj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.model.TeacherInfoExample" resultType="java.lang.Long">
+    select count(*) from tb_teacher_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_teacher_info
+    <set>
+      <if test="record.teiId != null">
+        tei_id = #{record.teiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sscCode != null">
+        ssc_code = #{record.sscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiName != null">
+        tei_name = #{record.teiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiSex != null">
+        tei_sex = #{record.teiSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiAge != null">
+        tei_age = #{record.teiAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.teiMinzu != null">
+        tei_minzu = #{record.teiMinzu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiZzmm != null">
+        tei_zzmm = #{record.teiZzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiXueli != null">
+        tei_xueli = #{record.teiXueli,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiHunfou != null">
+        tei_hunfou = #{record.teiHunfou,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiCsrq != null">
+        tei_csrq = #{record.teiCsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.teiSfzh != null">
+        tei_sfzh = #{record.teiSfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiLxdh != null">
+        tei_lxdh = #{record.teiLxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teiGzrq != null">
+        tei_gzrq = #{record.teiGzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.teiGzjj != null">
+        tei_gzjj = #{record.teiGzjj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_teacher_info
+    set tei_id = #{record.teiId,jdbcType=VARCHAR},
+      ssc_code = #{record.sscCode,jdbcType=VARCHAR},
+      tei_name = #{record.teiName,jdbcType=VARCHAR},
+      tei_sex = #{record.teiSex,jdbcType=VARCHAR},
+      tei_age = #{record.teiAge,jdbcType=INTEGER},
+      tei_minzu = #{record.teiMinzu,jdbcType=VARCHAR},
+      tei_zzmm = #{record.teiZzmm,jdbcType=VARCHAR},
+      tei_xueli = #{record.teiXueli,jdbcType=VARCHAR},
+      tei_hunfou = #{record.teiHunfou,jdbcType=VARCHAR},
+      tei_csrq = #{record.teiCsrq,jdbcType=TIMESTAMP},
+      tei_sfzh = #{record.teiSfzh,jdbcType=VARCHAR},
+      tei_lxdh = #{record.teiLxdh,jdbcType=VARCHAR},
+      tei_gzrq = #{record.teiGzrq,jdbcType=TIMESTAMP},
+      tei_gzjj = #{record.teiGzjj,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.TeacherInfo">
+    update tb_teacher_info
+    <set>
+      <if test="sscCode != null">
+        ssc_code = #{sscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teiName != null">
+        tei_name = #{teiName,jdbcType=VARCHAR},
+      </if>
+      <if test="teiSex != null">
+        tei_sex = #{teiSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teiAge != null">
+        tei_age = #{teiAge,jdbcType=INTEGER},
+      </if>
+      <if test="teiMinzu != null">
+        tei_minzu = #{teiMinzu,jdbcType=VARCHAR},
+      </if>
+      <if test="teiZzmm != null">
+        tei_zzmm = #{teiZzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="teiXueli != null">
+        tei_xueli = #{teiXueli,jdbcType=VARCHAR},
+      </if>
+      <if test="teiHunfou != null">
+        tei_hunfou = #{teiHunfou,jdbcType=VARCHAR},
+      </if>
+      <if test="teiCsrq != null">
+        tei_csrq = #{teiCsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teiSfzh != null">
+        tei_sfzh = #{teiSfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="teiLxdh != null">
+        tei_lxdh = #{teiLxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="teiGzrq != null">
+        tei_gzrq = #{teiGzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teiGzjj != null">
+        tei_gzjj = #{teiGzjj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tei_id = #{teiId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.TeacherInfo">
+    update tb_teacher_info
+    set ssc_code = #{sscCode,jdbcType=VARCHAR},
+      tei_name = #{teiName,jdbcType=VARCHAR},
+      tei_sex = #{teiSex,jdbcType=VARCHAR},
+      tei_age = #{teiAge,jdbcType=INTEGER},
+      tei_minzu = #{teiMinzu,jdbcType=VARCHAR},
+      tei_zzmm = #{teiZzmm,jdbcType=VARCHAR},
+      tei_xueli = #{teiXueli,jdbcType=VARCHAR},
+      tei_hunfou = #{teiHunfou,jdbcType=VARCHAR},
+      tei_csrq = #{teiCsrq,jdbcType=TIMESTAMP},
+      tei_sfzh = #{teiSfzh,jdbcType=VARCHAR},
+      tei_lxdh = #{teiLxdh,jdbcType=VARCHAR},
+      tei_gzrq = #{teiGzrq,jdbcType=TIMESTAMP},
+      tei_gzjj = #{teiGzjj,jdbcType=VARCHAR}
+    where tei_id = #{teiId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllModel" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+  </select>
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryByParam" parameterType="map" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryByCondition" resultMap="BaseResultMapExtends">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectBySql" resultMap="BaseResultMapExtends" statementType="STATEMENT">
+    select
+    <include refid="Base_Column_List" />
+    from tb_teacher_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+  <select id="selectFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_teacher_info
+    <include refid="Model_Where_Clause" />
+  </select>
+  <select id="queryFieldsByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_teacher_info
+    <include refid="Model_Query_Clause" />
+  </select>
+  <select id="selectFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_teacher_info
+    <include refid="Param_Where_Clause_Equal" />
+  </select>
+  <select id="queryFieldsByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Param_Column_List" />
+    from tb_teacher_info
+    <include refid="Param_Where_Clause_Like" />
+  </select>
+  <select id="selectFieldsBySql" resultMap="BaseResultMap" statementType="STATEMENT">
+    select
+    <include refid="Param_Column_List" />
+    from tb_teacher_info
+    <include refid="Param_Where_Clause_Sql" />
+  </select>
+</mapper>
